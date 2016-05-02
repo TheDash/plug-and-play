@@ -22,9 +22,13 @@
 
 #import rospy
 import argparse
+import os.path
 
 
-#def install(args):
+LINUX_STORAGE_PATH="/var/lib/ros-plug-and-play/"
+INSTALLED_MODULES_FILE="installed_modules"
+AVAILABLE_MODULES_FILE="available_modules"
+
 
 def add_eth_module(module_name, ip_addr, position, frame):
     print "Adding eth module " + module_name
@@ -41,6 +45,22 @@ def get_default_args(module):
 def add_module_to_repo(parser):
     print "Adding module %s to online repository" % module
     return 0
+
+def has_modules_list():
+    return os.path.isfile(LINUX_STORAGE_PATH + INSTALLED_MODULES_FILE)
+
+def has_available_list():
+    return os.path.isfile(LINUX_STORAGE_PATH + AVAILABLE_MODULES_FILE)
+
+def create_installed_modules_list():
+    if not has_modules_list():
+        print "Creating installed modules list..."
+        os.makedirs(LINUX_STORAGE_PATH)
+        open(LINUX_STORAGE_PATH + INSTALLED_MODULES_FILE, 'a')
+        print "Created " + LINUX_STORAGE_PATH + INSTALLED_MODULES_FILE)
+    else:
+        print "Installed modules list already exists.."
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Installs a module to your robot to be used for plug-and-play")
