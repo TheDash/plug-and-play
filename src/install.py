@@ -38,6 +38,10 @@ def get_default_args(module):
     print "Default arguments selected"
     return 0
 
+def add_module(parser):
+    print "Adding module %s to online repository" % module
+    return 0
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Installs a module to your robot to be used for plug-and-play")
     parser.add_argument("--module", dest="module", help="[REQUIRED] the name of the module. e.g velodynehdle32, kinect2, kinect1")
@@ -49,7 +53,8 @@ if __name__ == '__main__':
     parser.add_argument("--list-available", dest="list", help="List all of the available modules to install, e.g to use as a module name")
     parser.add_argument("--driver", dest="driver", help="Specify a driver to load, if no driver is specified the default settings will be used for the driver. if --auto is selected, this is ignored")
     parser.add_argument("--auto", dest="auto", help="If this parameter is specified, only the --module parameter will be read, and the default settings taken from the plug-and-play github page will be used for the driver name")
-     
+    parser.add_argument("--add", dest="add", help="If using this parameter, it will add the module to the online repository if it is not already there. This will make a pull request to a github page with the driver details and its arguments, preferably, you will set it up for default use by other users. This will allow them to add it using just the module name and --auto parameter")
+ 
 
     args = parser.parse_args()
 
