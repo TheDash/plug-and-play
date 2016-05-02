@@ -38,7 +38,7 @@ def get_default_args(module):
     print "Default arguments selected"
     return 0
 
-def add_module(parser):
+def add_module_to_repo(parser):
     print "Adding module %s to online repository" % module
     return 0
 
@@ -93,12 +93,16 @@ if __name__ == '__main__':
 
     if args.type == "usb":
         add_usb_module(args.module, args.mac_addr, args.position, args.frame)
-        return 0
 
     if args.type =="eth":
         add_eth_module(args.module, args.ip_addr, args.position, args.frame)
-        return 0
 
+    if args.add:
+        uinput = input("Do you wish to make a pull request for your module parameters? This will allow other users to use the --auto option, so they can easily use this module on their robot. [y\n]?")
+        if uinput == 'y':
+            add_module_to_repo(parser)
+        if uinput == 'n':
+            print "Thanks!"
 #    args = sys.argv[1:]
 #    install(sys.argv[1:])
     #except rospy.ROSInterruptException:
