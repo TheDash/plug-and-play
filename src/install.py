@@ -83,6 +83,10 @@ if __name__ == '__main__':
         print "The type of the module to install is not set. Please pick a type"
         return 0
 
+    if not args.driver:
+        print "The driver.py, driver.launch, or driver executable filename is not known. Please pass the filename in as a parameter in one of those types"
+        return 0
+
     if args.type == "eth" && not args.ip_addr:
         print "Ethernet module selected, but no IP address of ethernet device is known. Please find out the IP address of your device"
         return 0
@@ -92,10 +96,10 @@ if __name__ == '__main__':
         return 0
 
     if args.type == "usb":
-        add_usb_module(args.module, args.mac_addr, args.position, args.frame)
+        add_usb_module(args.module, args.mac_addr, args.position, args.frame, args.driver)
 
     if args.type =="eth":
-        add_eth_module(args.module, args.ip_addr, args.position, args.frame)
+        add_eth_module(args.module, args.ip_addr, args.position, args.frame, args.driver)
 
     if args.add:
         uinput = input("Do you wish to make a pull request for your module parameters? This will allow other users to use the --auto option, so they can easily use this module on their robot. [y\n]?")
@@ -103,6 +107,7 @@ if __name__ == '__main__':
             add_module_to_repo(parser)
         if uinput == 'n':
             print "Thanks!"
+
 #    args = sys.argv[1:]
 #    install(sys.argv[1:])
     #except rospy.ROSInterruptException:
