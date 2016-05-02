@@ -34,6 +34,9 @@ def add_usb_module(module_name, mac_address, position, frame):
     print "Adding usb module " + module_name
     return 0
 
+def get_default_args(module):
+    print "Default arguments selected"
+    return 0
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Installs a module to your robot to be used for plug-and-play")
@@ -49,6 +52,15 @@ if __name__ == '__main__':
      
 
     args = parser.parse_args()
+
+    if args.auto:
+        default_args = get_default_args(args.module) 
+        parser.position = default_args.position
+        parser.frame = default_args.frame
+        parser.type = default_args.type
+        parser.ip_addr = default_args.ip_addr
+        parser.mac_addr = default_args.mac_addr
+        parser.driver = default_args.driver 
 
     if not args.module:
         print "The argument --module is not set. Please pick a module to install"
