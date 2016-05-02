@@ -37,10 +37,10 @@ def add_usb_module(module_name, mac_address, position):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Installs a module to your robot to be used for plug-and-play")
-    parser.add_argument("--module", dest="module", help="the name of the module. e.g velodynehdle32, kinect2, kinect1")
-    parser.add_argument("--position", dest="position", help="the position of the module relative to the frame name -f, e.g [10, 12, 13]")
-    parser.add_argument("--frame", dest="frame", help="the frame to which the static transform will be relative to for the position of the sensor")
-    parser.add_argument("--type", dest="type", help="the type of module to install, e.g eth for ethernet, usb for usb, bluetooth for bluetooth")
+    parser.add_argument("--module", dest="module", help="[REQUIRED] the name of the module. e.g velodynehdle32, kinect2, kinect1")
+    parser.add_argument("--position", dest="position", help="[REQUIRED] the position of the module relative to the frame name -f, e.g [10, 12, 13]")
+    parser.add_argument("--frame", dest="frame", help="[REQUIRED] the frame to which the static transform will be relative to for the position of the sensor")
+    parser.add_argument("--type", dest="type", help="[REQUIRED] the type of module to install, e.g eth for ethernet, usb for usb, bluetooth for bluetooth")
     parser.add_argument("--ip_addr", dest="ip_addr", help="the ip address of the module if eth is the type")
     parser.add_argument("--mac_addr", dest="mac_addr", help="the mac address of the device if using usb as the type")
 
