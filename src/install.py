@@ -44,6 +44,8 @@ if __name__ == '__main__':
     parser.add_argument("--ip_addr", dest="ip_addr", help="the ip address of the module if eth is the type")
     parser.add_argument("--mac_addr", dest="mac_addr", help="the mac address of the device if using usb as the type")
     parser.add_argument("--list-available", dest="list", help="List all of the available modules to install, e.g to use as a module name")
+    parser.add_argument("--driver", dest="driver", help="Specify a driver to load, if no driver is specified the default settings will be used for the driver. if --auto is selected, this is ignored")
+    parser.add_argument("--auto", dest="auto", help="If this parameter is specified, only the --module parameter will be read, and the default settings taken from the plug-and-play github page will be used for the driver name")
      
 
     args = parser.parse_args()
