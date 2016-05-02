@@ -105,18 +105,18 @@ if __name__ == '__main__':
         print "The driver.py, driver.launch, or driver executable filename is not known. Please pass the filename in as a parameter in one of those types"
         return 0
 
-    if args.type == "eth" && not args.ip_addr:
+    if args.type == "eth" and not args.ip_addr:
         print "Ethernet module selected, but no IP address of ethernet device is known. Please find out the IP address of your device"
         return 0
 
-    if args.type == "usb" && not args.mac-addr:
+    if args.type == "usb" and not args.mac-addr:
         print "USB module selected, but no mac address of device is known. Please find out the mac address of your device"
         return 0
 
     if args.type == "usb":
         add_usb_module(args.module, args.mac_addr, args.position, args.frame, args.driver)
 
-    if args.type =="eth":
+    if args.type == "eth":
         add_eth_module(args.module, args.ip_addr, args.position, args.frame, args.driver)
 
     if args.add:
