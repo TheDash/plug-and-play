@@ -87,31 +87,24 @@ if __name__ == '__main__':
 
     if not args.module:
         print "The argument --module is not set. Please pick a module to install"
-        return 0
 
     if not args.position:
         print "The argument --position is not set. Please set the position [x, y, z]"    
-        return 0
    
     if not args.frame:
         print "The argument --frame is not set. Please pick a relative frame to set for the static transform"
-        return 0   
 
     if not args.type:
         print "The type of the module to install is not set. Please pick a type"
-        return 0
 
     if not args.driver:
         print "The driver.py, driver.launch, or driver executable filename is not known. Please pass the filename in as a parameter in one of those types"
-        return 0
 
     if args.type == "eth" and not args.ip_addr:
         print "Ethernet module selected, but no IP address of ethernet device is known. Please find out the IP address of your device"
-        return 0
 
     if args.type == "usb" and not args.mac-addr:
         print "USB module selected, but no mac address of device is known. Please find out the mac address of your device"
-        return 0
 
     if args.type == "usb":
         add_usb_module(args.module, args.mac_addr, args.position, args.frame, args.driver)
@@ -126,6 +119,7 @@ if __name__ == '__main__':
         if uinput == 'n':
             print "Thanks!"
 
+    return 0
 #    args = sys.argv[1:]
 #    install(sys.argv[1:])
     #except rospy.ROSInterruptException:
