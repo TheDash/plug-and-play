@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
-  <name>plug-and-play</name>
-  <version>0.0.0</version>
+  <name>plug_and_play</name>
+  <version>1.0.0</version>
   <description>The plug-and-play package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
