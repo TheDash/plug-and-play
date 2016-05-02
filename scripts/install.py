@@ -18,7 +18,7 @@
             rosrun plug-and-play install [module_name] usb [mac_address] [x, y, z]
 
     Example:
-        sudo ./install.py --module velodynehdle32 --position "[1, 1, 1]" --frame base_link --type eth --ip_addr 192.168.3.17
+        rosrun plug_and_play install.py  --module velodynehdle32 --position "[1, 1, 1]" --frame base_link --type eth --ip_addr 192.168.3.17 --driver velodyne_node
 
 
 """
