@@ -26,11 +26,11 @@ import argparse
 
 #def install(args):
 
-def add_eth_module(module_name, ip_addr, position):
+def add_eth_module(module_name, ip_addr, position, frame):
     print "Adding eth module " + module_name
     return 0
 
-def add_usb_module(module_name, mac_address, position):
+def add_usb_module(module_name, mac_address, position, frame):
     print "Adding usb module " + module_name
     return 0
 
@@ -68,8 +68,16 @@ if __name__ == '__main__':
         print "Ethernet module selected, but no IP address of ethernet device is known. Please find out the IP address of your device"
         return 0
 
-     if args.type == "usb" && not args.mac-addr:
+    if args.type == "usb" && not args.mac-addr:
         print "USB module selected, but no mac address of device is known. Please find out the mac address of your device"
+        return 0
+
+    if args.type == "usb":
+        add_usb_module(args.module, args.mac_addr, args.position, args.frame)
+        return 0
+
+    if args.type =="eth":
+        add_eth_module(args.module, args.ip_addr, args.position, args.frame)
         return 0
 
 #    args = sys.argv[1:]
