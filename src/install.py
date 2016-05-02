@@ -30,11 +30,11 @@ INSTALLED_MODULES_FILE="installed_modules.pkl"
 AVAILABLE_MODULES_FILE="available_modules"
 
 
-def add_eth_module(module_name, ip_addr, position, frame):
+def add_eth_module(module_name, ip_addr, position, frame, driver):
     print "Adding eth module " + module_name
     return 0
 
-def add_usb_module(module_name, mac_address, position, frame):
+def add_usb_module(module_name, mac_address, position, frame, driver):
     print "Adding usb module " + module_name
     return 0
 
