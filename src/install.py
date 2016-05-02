@@ -23,10 +23,10 @@
 #import rospy
 import argparse
 import os.path
-
+import pickle
 
 LINUX_STORAGE_PATH="/var/lib/ros-plug-and-play/"
-INSTALLED_MODULES_FILE="installed_modules"
+INSTALLED_MODULES_FILE="installed_modules.pkl"
 AVAILABLE_MODULES_FILE="available_modules"
 
 
@@ -52,15 +52,13 @@ def has_modules_list():
 def has_available_list():
     return os.path.isfile(LINUX_STORAGE_PATH + AVAILABLE_MODULES_FILE)
 
-def create_installed_modules_list():
-    if not has_modules_list():
-        print "Creating installed modules list..."
-        os.makedirs(LINUX_STORAGE_PATH)
-        open(LINUX_STORAGE_PATH + INSTALLED_MODULES_FILE, 'a')
-        print "Created " + LINUX_STORAGE_PATH + INSTALLED_MODULES_FILE)
-    else:
-        print "Installed modules list already exists.."
-
+def create_pickle_file(module, position, frame, type, ip_addr, mac_addr, driver):
+    pickle_list = [module, position, frame, type, ip_addr, mac_addr, driver]
+    pkl_file = open(LINUX_STORAGE_PATH + INSTALLED_MODULES_FILE, 'rb')
+    pickle.dump(pickle_list, pkl_file)
+    pkl_file.close()
+    print "Created pickle file"
+    return 0
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Installs a module to your robot to be used for plug-and-play")
