@@ -119,7 +119,6 @@ if __name__ == '__main__':
         if uinput == 'n':
             print "Thanks!"
 
-    return 0
 #    args = sys.argv[1:]
 #    install(sys.argv[1:])
     #except rospy.ROSInterruptException:
