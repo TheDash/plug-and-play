@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Author: Devon Ash, April 2016.
 
 """ the install command will:
 
@@ -29,6 +30,7 @@ import argparse
 import os.path
 import pickle
 import sys
+import pyudev
 
 # CONSTANTS
 LINUX_STORAGE_PATH="/var/lib/ros-plug-and-play/"
@@ -52,15 +54,21 @@ def add_module(module_name, position, frame, driver, ip_addr):
         create_module_directories(module_name)
         create_udev_rule(module_name)
 
-        add_module_to_database(module_name, position, frame, type, ip_addr, driver)
+        #add_module_to_database(module_name, position, frame, type, ip_addr, driver)
     return 0
 
 def create_udev_rule(module_name):
     print "Starting udev rule creation... " + module_name
+    context = pyudev.Context()
+    monitor = pyudev.Monitor.from_netlink(context)
     uinput = input("Please unplug and plug in your device you wish to use as a plug and play robotics module. Press Enter after you have done so. One module at a time.")    
+    device = monitor.poll(timeout=3)
+    if device:
+        print('{0.action}: {0}'.format(device))
     if uinput == "":
         print "Enter detected. Creating udev rule"
         # Monitor syslog, udevadm monitor, for hints on new devices connected to comp. 
+        
     return 0
 
 def get_default_args(module):
