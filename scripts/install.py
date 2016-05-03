@@ -34,12 +34,8 @@ INSTALLED_MODULES_FILE="installed_modules.pkl"
 AVAILABLE_MODULES_FILE="available_modules"
 
 
-def add_eth_module(module_name, ip_addr, position, frame, driver):
-    print "Adding eth module " + module_name
-    return 0
-
-def add_usb_module(module_name, mac_address, position, frame, driver):
-    print "Adding usb module " + module_name
+def add_module(module_name, position, frame, driver, ip_addr)
+    print "Adding module " + module_name
     return 0
 
 def get_default_args(module):
@@ -56,8 +52,8 @@ def has_modules_list():
 def has_available_list():
     return os.path.isfile(LINUX_STORAGE_PATH + AVAILABLE_MODULES_FILE)
 
-def create_pickle_file(module, position, frame, type, ip_addr, mac_addr, driver):
-    pickle_list = [module, position, frame, type, ip_addr, mac_addr, driver]
+def create_pickle_file(module, position, frame, type, ip_addr, driver):
+    pickle_list = [module, position, frame, type, ip_addr, driver]
     pkl_file = open(LINUX_STORAGE_PATH + INSTALLED_MODULES_FILE, 'rb')
     pickle.dump(pickle_list, pkl_file)
     pkl_file.close()
@@ -69,9 +65,7 @@ if __name__ == '__main__':
     parser.add_argument("--module", dest="module", help="[REQUIRED] the name of the module. e.g velodynehdle32, kinect2, kinect1")
     parser.add_argument("--position", dest="position", help="[REQUIRED] the position of the module relative to the frame name -f, e.g [10, 12, 13]")
     parser.add_argument("--frame", dest="frame", help="[REQUIRED] the frame to which the static transform will be relative to for the position of the sensor")
-    parser.add_argument("--type", dest="type", help="[REQUIRED] the type of module to install, e.g eth for ethernet, usb for usb, bluetooth for bluetooth")
     parser.add_argument("--ip_addr", dest="ip_addr", help="the ip address of the module if eth is the type")
-    parser.add_argument("--mac_addr", dest="mac_addr", help="the mac address of the device if using usb as the type")
     parser.add_argument("--list-available", dest="list", help="List all of the available modules to install, e.g to use as a module name")
     parser.add_argument("--driver", dest="driver", help="Specify a driver to load, if no driver is specified the default settings will be used for the driver. if --auto is selected, this is ignored")
     parser.add_argument("--auto", dest="auto", help="If this parameter is specified, only the --module parameter will be read, and the default settings taken from the plug-and-play github page will be used for the driver name")
@@ -84,9 +78,7 @@ if __name__ == '__main__':
         default_args = get_default_args(args.module) 
         parser.position = default_args.position
         parser.frame = default_args.frame
-        parser.type = default_args.type
         parser.ip_addr = default_args.ip_addr
-        parser.mac_addr = default_args.mac_addr
         parser.driver = default_args.driver 
 
     if not args.module:
@@ -98,23 +90,11 @@ if __name__ == '__main__':
     if not args.frame:
         print "The argument --frame is not set. Please pick a relative frame to set for the static transform"
 
-    if not args.type:
-        print "The type of the module to install is not set. Please pick a type"
-
     if not args.driver:
         print "The driver.py, driver.launch, or driver executable filename is not known. Please pass the filename in as a parameter in one of those types"
 
-    if args.type == "eth" and not args.ip_addr:
-        print "Ethernet module selected, but no IP address of ethernet device is known. Please find out the IP address of your device"
 
-    if args.type == "usb" and not args.mac-addr:
-        print "USB module selected, but no mac address of device is known. Please find out the mac address of your device"
-
-    if args.type == "usb":
-        add_usb_module(args.module, args.mac_addr, args.position, args.frame, args.driver)
-
-    if args.type == "eth":
-        add_eth_module(args.module, args.ip_addr, args.position, args.frame, args.driver)
+    add_module(args.module, args.position, args.frame, args.driver)
 
     if args.add:
         uinput = input("Do you wish to make a pull request for your module parameters? This will allow other users to use the --auto option, so they can easily use this module on their robot. [y\n]?")
@@ -123,7 +103,3 @@ if __name__ == '__main__':
         if uinput == 'n':
             print "Thanks!"
 
-#    args = sys.argv[1:]
-#    install(sys.argv[1:])
-    #except rospy.ROSInterruptException:
-    #    pass
