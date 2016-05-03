@@ -24,20 +24,31 @@
 
 """
 
-
-#import rospy
+# IMPORTS
 import argparse
 import os.path
 import pickle
 import sys
 
+# CONSTANTS
 LINUX_STORAGE_PATH="/var/lib/ros-plug-and-play/"
+LINUX_MODULES_PATH="/var/lib/ros-plug-and-play/modules/"
 INSTALLED_MODULES_FILE="installed_modules.pkl"
 AVAILABLE_MODULES_FILE="available_modules"
+LAUNCH_SUBDIR="/launch"
+RULES_SUBDIR="/rules.d"
 
+# Pickle file position naming
+MODULE_NAME=0
+POSITION=1
+FRAME=2
+TYPE=3
+IP_ADDR=4
+DRIVER=5
 
 def add_module(module_name, position, frame, driver, ip_addr):
     print "Adding module " + module_name
+    #create_pickle_file(module_name, position, frame,
     return 0
 
 def get_default_args(module):
@@ -47,6 +58,34 @@ def get_default_args(module):
 def add_module_to_repo(parser):
     print "Adding module %s to online repository" % module
     return 0
+
+def create_module_directories(module_name):
+    if os.path.exists(LINUX_STORAGE_PATH):
+        if not os.path.exists(LINUX_MODULES_PATH):
+            os.makedir(LINUX_MODULES_PATH)
+        if os.path.exists(LINUX_MODULES_PATH + module_name):
+            print "Module directory is already in the database, returning."
+            return 0
+        os.makedir(LINUX_MODULES_PATH + module_name)
+        print "Creating directory " + LINUX_MODULES_PATH + module_name
+        os.makedir(LINUX_MODULES_PATH + module_name + LAUNCH_SUBDIR)
+        print "Creating directory " + LINUX_MODULES_PATH + module_name + LAUNCH_SUBDIR
+        os.makedir(LINUX_MODULES_PATH + module_name + RULES_SUBDIR)
+        print "Creating directory " + LINUX_MODULES_PATH + module_name + RULES_SUBDIR
+
+
+def is_installed(module_name):
+    print "Checking if " + module_name " is installed"
+    if has_modules_list():
+        pkl_file = open(LINUX_STORAGE_PATH + INSTALLED_MODULES_FILE, 'rb')
+        modules = pickle.load(pkl_file)
+        for module in modules:
+            if module[MODULE_NAME] is module_name:
+                print module_name + " is already installed"
+                return True
+            else:
+                print module_name + " is not installed"
+                return False
 
 def has_modules_list():
     return os.path.isfile(LINUX_STORAGE_PATH + INSTALLED_MODULES_FILE)
