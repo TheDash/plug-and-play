@@ -70,7 +70,6 @@ if __name__ == '__main__':
     parser.add_argument("--driver", dest="driver", help="Specify a driver to load, if no driver is specified the default settings will be used for the driver. if --auto is selected, this is ignored")
     parser.add_argument("--auto", dest="auto", help="If this parameter is specified, only the --module parameter will be read, and the default settings taken from the plug-and-play github page will be used for the driver name")
     parser.add_argument("--add", dest="add", help="If using this parameter, it will add the module to the online repository if it is not already there. This will make a pull request to a github page with the driver details and its arguments, preferably, you will set it up for default use by other users. This will allow them to add it using just the module name and --auto parameter")
- 
 
     args = parser.parse_args()
 
@@ -83,16 +82,19 @@ if __name__ == '__main__':
 
     if not args.module:
         print "The argument --module is not set. Please pick a module to install"
+        quit()
 
     if not args.position:
         print "The argument --position is not set. Please set the position [x, y, z]"    
-   
+        quit()   
+
     if not args.frame:
         print "The argument --frame is not set. Please pick a relative frame to set for the static transform"
+        quit()
 
     if not args.driver:
         print "The driver.py, driver.launch, or driver executable filename is not known. Please pass the filename in as a parameter in one of those types"
-
+        quit()
 
     add_module(args.module, args.position, args.frame, args.driver)
 
