@@ -27,7 +27,7 @@
 
 # IMPORTS
 import argparse
-import os.path
+import os
 import pickle
 import sys
 import pyudev
@@ -61,14 +61,16 @@ def create_udev_rule(module_name):
     print "Starting udev rule creation... " + module_name
     context = pyudev.Context()
     monitor = pyudev.Monitor.from_netlink(context)
-    uinput = input("Please unplug and plug in your device you wish to use as a plug and play robotics module. Press Enter after you have done so. One module at a time.")    
-    device = monitor.poll(timeout=3)
-    if device:
-        print('{0.action}: {0}'.format(device))
-    if uinput == "":
-        print "Enter detected. Creating udev rule"
-        # Monitor syslog, udevadm monitor, for hints on new devices connected to comp. 
-        
+
+
+    # This works for usb devices
+    for action, device in monitor:
+        print "ok"    
+
+    # We need an event handler for ethernet devices. When an ethernet device is plugged into
+    # the robot, we will have it detect if dhcp is used. If dhcp is not used, then a static interface
+    # will be setup on the same subnet as the sensor.
+
     return 0
 
 def get_default_args(module):
@@ -82,20 +84,24 @@ def add_module_to_repo(parser):
 def create_module_directories(module_name):
     if os.path.exists(LINUX_STORAGE_PATH):
         if not os.path.exists(LINUX_MODULES_PATH):
-            os.makedir(LINUX_MODULES_PATH)
+            os.makedirs(LINUX_MODULES_PATH)
         if os.path.exists(LINUX_MODULES_PATH + module_name):
             print "Module directory is already in the database, returning."
             return 0
-        os.makedir(LINUX_MODULES_PATH + module_name)
+        os.makedirs(LINUX_MODULES_PATH + module_name)
         print "Creating directory " + LINUX_MODULES_PATH + module_name
-        os.makedir(LINUX_MODULES_PATH + module_name + LAUNCH_SUBDIR)
+        os.makedirs(LINUX_MODULES_PATH + module_name + LAUNCH_SUBDIR)
         print "Creating directory " + LINUX_MODULES_PATH + module_name + LAUNCH_SUBDIR
-        os.makedir(LINUX_MODULES_PATH + module_name + RULES_SUBDIR)
+        os.makedirs(LINUX_MODULES_PATH + module_name + RULES_SUBDIR)
         print "Creating directory " + LINUX_MODULES_PATH + module_name + RULES_SUBDIR
+    else:
+        os.makedirs(LINUX_STORAGE_PATH)
+        create_module_directories(module_name)
+    return 0
 
 
 def is_installed(module_name):
-    print "Checking if " + module_name " is installed"
+    print "Checking if " + module_name + " is installed"
     if has_modules_list():
         pkl_file = open(LINUX_STORAGE_PATH + INSTALLED_MODULES_FILE, 'rb')
         modules = pickle.load(pkl_file)
