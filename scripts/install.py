@@ -28,13 +28,14 @@
 import argparse
 import os.path
 import pickle
+import sys
 
 LINUX_STORAGE_PATH="/var/lib/ros-plug-and-play/"
 INSTALLED_MODULES_FILE="installed_modules.pkl"
 AVAILABLE_MODULES_FILE="available_modules"
 
 
-def add_module(module_name, position, frame, driver, ip_addr)
+def add_module(module_name, position, frame, driver, ip_addr):
     print "Adding module " + module_name
     return 0
 
@@ -82,19 +83,19 @@ if __name__ == '__main__':
 
     if not args.module:
         print "The argument --module is not set. Please pick a module to install"
-        quit()
+        sys.exit(0)
 
     if not args.position:
         print "The argument --position is not set. Please set the position [x, y, z]"    
-        quit()   
+        sys.exit(0)
 
     if not args.frame:
         print "The argument --frame is not set. Please pick a relative frame to set for the static transform"
-        quit()
+        sys.exit(0)
 
     if not args.driver:
         print "The driver.py, driver.launch, or driver executable filename is not known. Please pass the filename in as a parameter in one of those types"
-        quit()
+        sys.exit(0)
 
     add_module(args.module, args.position, args.frame, args.driver)
 
