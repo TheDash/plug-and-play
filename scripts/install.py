@@ -18,8 +18,9 @@
             rosrun plug-and-play install [module_name] usb [mac_address] [x, y, z]
 
     Example:
-        rosrun plug_and_play install.py  --module velodynehdle32 --position "[1, 1, 1]" --frame base_link --type eth --ip_addr 192.168.3.17 --driver velodyne_node
+        rosrun install.py --module velodynehdle32 --position "[1, 1, 1]" --frame base_link --driver driver.launch
 
+        
 
 """
 
@@ -97,7 +98,7 @@ if __name__ == '__main__':
         print "The driver.py, driver.launch, or driver executable filename is not known. Please pass the filename in as a parameter in one of those types"
         sys.exit(0)
 
-    add_module(args.module, args.position, args.frame, args.driver)
+    add_module(args.module, args.position, args.frame, args.driver, args.ip_addr)
 
     if args.add:
         uinput = input("Do you wish to make a pull request for your module parameters? This will allow other users to use the --auto option, so they can easily use this module on their robot. [y\n]?")
