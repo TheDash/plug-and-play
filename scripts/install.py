@@ -47,8 +47,20 @@ IP_ADDR=4
 DRIVER=5
 
 def add_module(module_name, position, frame, driver, ip_addr):
-    print "Adding module " + module_name
-    #create_pickle_file(module_name, position, frame,
+    if not is_installed(module_name):
+        print "Adding module " + module_name
+        create_module_directories(module_name)
+        create_udev_rule(module_name)
+
+        add_module_to_database(module_name, position, frame, type, ip_addr, driver)
+    return 0
+
+def create_udev_rule(module_name):
+    print "Starting udev rule creation... " + module_name
+    uinput = input("Please unplug and plug in your device you wish to use as a plug and play robotics module. Press Enter after you have done so. One module at a time.")    
+    if uinput == "":
+        print "Enter detected. Creating udev rule"
+        # Monitor syslog, udevadm monitor, for hints on new devices connected to comp. 
     return 0
 
 def get_default_args(module):
@@ -93,12 +105,12 @@ def has_modules_list():
 def has_available_list():
     return os.path.isfile(LINUX_STORAGE_PATH + AVAILABLE_MODULES_FILE)
 
-def create_pickle_file(module, position, frame, type, ip_addr, driver):
+def add_module_to_database(module, position, frame, type, ip_addr, driver):
     pickle_list = [module, position, frame, type, ip_addr, driver]
     pkl_file = open(LINUX_STORAGE_PATH + INSTALLED_MODULES_FILE, 'rb')
     pickle.dump(pickle_list, pkl_file)
     pkl_file.close()
-    print "Created pickle file"
+    print "Added module to database"
     return 0
 
 if __name__ == '__main__':
